@@ -1,0 +1,50 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1911
+
+The spre (SuperPre) is a syntax plugin for the text that contains several programing language.  The text can be converted to HTML.  This is useful for writing programming notes or creating web pages.
+
+spre syntax is like a C macro.  Example to make HTML:
+<html>
+<head>
+<title>example</title>
+</head>
+<body>
+#macro
+" You can use Vim script as embedded macro.
+return "<h1>Example to make HTML</h1>"
+#end
+
+## comment is removed from result.
+
+#pre c {"colorscheme":"evening"}
+/* This section will be <pre class="c">...</pre> */
+int func(int n) {
+  return func(n);
+}
+#end
+
+#macro
+let s:attr = {}
+let s:attr.colorscheme = "desert"
+let s:attr.tag = "div"
+let s:attr.class = "c main"
+let s:attr.modeline = "list number"
+#end
+#pre c s:attr
+/* This section will be <div class="c main">...</div> */
+int main(int argc, char **argv) {
+  return 0;
+}
+#end
+
+#macro
+return readfile(expand("%:p:h") . "/footer.txt")
+#end
+</body>
+</html>
+
+If you want to highlight HTML tag outside of spre macro:
+  :set ft=html.spre
+Spre will work as additional syntax.
+
+colored example:
+http://yukihiro.nakadaira.googlepages.com/spre_example.html

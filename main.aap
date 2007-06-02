@@ -1,0 +1,19 @@
+
+@import aaplib
+
+distfiles = main.aap
+            aaplib.py
+            readme.txt
+            plugin/spre.vim
+            syntax/spre.vim
+
+all: spre.zip
+    :pass
+
+spre.zip: $distfiles
+    :zip {prefix = spre} spre.zip $distfiles
+
+clean:
+    :del {f} *.pyc
+    :del {f} *.zip
+
