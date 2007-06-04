@@ -1,9 +1,7 @@
 
-Super Pre
-
-The spre is a syntax plugin for the text that including several
-programing language.  The text can be converted to HTML using 2html.vim
-(but the spre is not only for making HTML).
+The spre (SuperPre) is a syntax plugin for the text that contains
+several programing language.  The text can be converted to HTML using
+2html.vim (but the spre is not only for making HTML).
 
 Installing:
   :set runtimepath+=/path/to/spre
