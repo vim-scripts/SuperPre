@@ -16,7 +16,7 @@ function! s:Setup()
   " pre
   let ft_list = {}
   let pos = getpos('.')
-  g/\v^[#!]pre\s+\w+>/let ft_list[matchstr(getline('.'), '\v^[#!]pre\s+\zs\w+>')] = 1
+  silent g/\v^[#!]pre\s+\w+>/let ft_list[matchstr(getline('.'), '\v^[#!]pre\s+\zs\w+>')] = 1
   call setpos('.', pos)
   syntax region MacroPre matchgroup=MacroTag start=/\v^\z([#!])pre>.*$/ end=/^\z1end\>/ keepend extend fold
   for ft in keys(ft_list)

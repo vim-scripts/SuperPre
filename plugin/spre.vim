@@ -1,37 +1,23 @@
 
-command! -bar -range=% SPHtml call SPHtml(<line1>, <line2>)
+command! -bar -range=% SPHtml call s:SPHtml(<line1>, <line2>)
 
-function! SPHtml(line1, line2)
+function! s:SPHtml(line1, line2)
   let lines = getline(a:line1, a:line2)
-  new         " open result buffer
+  new
   call append(1, lines)
   silent 1delete _
-  setl ft=spre expandtab foldmethod=syntax
+  setl expandtab
   retab
-  let i = 1
-  while 1
-    while i <= line('$') && getline(i) !~ '^[#!]\{2}' && foldlevel(i) == 0
-      let i += 1
-    endwhile
-    if i > line('$')
-      break
-    endif
-    let start = i
-    if getline(i) =~ '^[#!]\{2}'
-      let end = i
-      let lines = []
-    elseif foldlevel(i) > 0
-      let end = foldclosedend(i)
-      let lines = s:Pre(start, end)
-    endif
-    call append(end, lines)
-    silent execute printf("%d,%ddelete _", start, end)
-    let i = start + len(lines)
+  setl ft=spre foldmethod=syntax
+  " remove comment
+  folddoopen if getline('.') =~ '^[#!]\{2}' | delete _ | endif
+  " convert spre text
+  folddoclosed call s:DoConvert()
+endfunction
 
-    " reset fold.  fold condition is breaked when converting text that
-    " have fold syntax.
-    setl foldmethod=syntax
-  endwhile
+function! s:DoConvert()
+  call append(line('.') - 1, s:Pre(foldclosed('.'), foldclosedend('.')))
+  silent execute printf("%d,%ddelete _", foldclosed('.'), foldclosedend('.'))
 endfunction
 
 function! s:Pre(start, end)
